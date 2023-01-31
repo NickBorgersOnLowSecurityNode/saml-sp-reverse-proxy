@@ -1,0 +1,31 @@
+version: "3"
+services:
+  workload:
+    image: nginx
+
+  saml-sp-reverse-proxy:
+    image: saml-sp-reverse-proxy:latest
+    build: ./saml-sp-reverse-proxy
+    volumes:
+      - ./saml-sp-reverse-proxy/site.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./saml-sp-reverse-proxy/saml-idp-metadata.xml:/etc/apache2/conf-enabled/saml-idp-metadata.xml
+      - ./saml-sp-reverse-proxy/saml-sp-metadata.xml:/etc/apache2/conf-enabled/saml-sp-metadata.xml
+      - ./saml-sp-reverse-proxy/key.pem:/etc/apache2/conf-enabled/key.pem
+      - ./saml-sp-reverse-proxy/cert.pem:/etc/apache2/conf-enabled/cert.pem
+
+  https-proxy:
+    image: lscr.io/linuxserver/swag:latest
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - URL=account-recovery-yft.duckdns.org
+      - VALIDATION=http
+    volumes:
+      - ./https-proxy/nginx.conf:/config/nginx/site-confs/default.conf
+    ports:
+      - 443:443
+      - 80:80
+    restart: unless-stopped

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<EntityDescriptor
+    entityID="https://account-recovery-yft.duckdns.org/mellon/"
+    xmlns="urn:oasis:names:tc:SAML:2.0:metadata">
+  <SPSSODescriptor
+      AuthnRequestsSigned="false"
+      protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+    <NameIDFormat>
+      urn:oasis:names:tc:SAML:2.0:nameid-format:transient
+    </NameIDFormat>
+  </SPSSODescriptor>
+</EntityDescriptor>
